@@ -20,38 +20,165 @@ MigrateIQ elimina semanas de scripts ETL manuais. A plataforma inspeciona o sche
 
 ---
 
+## Estrutura do Repositório
+
+```
+migrateiq/
+├── app/                          # Frontend Next.js (App Router)
+│   ├── page.tsx                  # Landing page
+│   └── app/
+│       ├── dashboard/page.tsx    # Dashboard
+│       ├── migrations/page.tsx   # Gerenciamento de migrações
+│       └── connections/page.tsx  # Conexões
+├── components/                   # Componentes React
+│   ├── layout/ (Sidebar, Header)
+│   └── ui/ (Button, Badge)
+├── engine/                       # Engine de migração (Node.js)
+│   ├── src/
+│   │   ├── connectors/
+│   │   │   ├── sources/          # PostgreSQL, SQL Server, MySQL
+│   │   │   └── targets/          # Databricks, Microsoft Fabric
+│   │   ├── pipeline/             # Orchestrator, Extractor, Transformer
+│   │   ├── schema/               # Types, Mapper, Inspector
+│   │   └── utils/                # Checkpoint, Logger, Retry
+│   ├── package.json              # Dependências do engine
+│   └── tsconfig.json
+├── plugins/
+│   └── ruflo-data-migration/     # Plugin de orquestração multi-agente
+│       ├── agents/               # migration-orchestrator, source-inspector, migration-validator
+│       ├── skills/               # migration-plan, run, status, rollback, validate
+│       ├── commands/
+│       └── scripts/smoke.sh      # 24 smoke tests
+├── migrations/
+│   └── manifests/                # Templates YAML (full-load, incremental)
+├── lib/                          # Mock data (frontend)
+└── public/                       # Assets estáticos
+```
+
+---
+
 ## Stack
 
 | Camada | Tecnologia |
 |--------|-----------|
 | Frontend | Next.js 15 (App Router) + TypeScript |
 | Estilo | Tailwind CSS v3 com design system próprio |
-| Componentes | Lucide React + Recharts |
-| Engine de migração | [`data-migration-hub/`](../data-migration-hub) — TypeScript + Node.js 18+ |
-| Orquestração | Multi-agente de IA com checkpoints e retry |
+| Engine | Node.js 20+ + TypeScript strict |
+| Fontes SQL | `pg` · `mssql` · `mysql2` |
+| Destinos cloud | Databricks REST API · Microsoft Fabric API |
+| Orquestração | Multi-agente com checkpoints e retry automático |
+| Plugin | `ruflo-data-migration` |
 
 ---
 
-## Estrutura
+## Pré-requisitos
 
+- **Node.js 20+** — [nodejs.org/download](https://nodejs.org/download)
+- **npm 9+** (incluído com o Node.js)
+
+```bash
+node --version   # deve ser >= 20
+npm --version    # deve ser >= 9
 ```
-migrateiq/
-├── app/
-│   ├── page.tsx                  # Landing page
-│   └── app/
-│       ├── dashboard/page.tsx    # Dashboard com métricas e migrações recentes
-│       ├── migrations/page.tsx   # Lista e gerenciamento de migrações
-│       └── connections/page.tsx  # Gerenciamento de fontes e destinos
-├── components/
-│   ├── layout/
-│   │   ├── Sidebar.tsx           # Sidebar de navegação fixa
-│   │   └── Header.tsx            # Header do app com breadcrumb
-│   └── ui/
-│       ├── Button.tsx            # 4 variantes (primary, secondary, ghost, gradient)
-│       └── Badge.tsx             # 7 variantes de status
-├── lib/
-│   └── mock-data.ts              # Dados de demonstração
-└── tailwind.config.ts            # Design tokens do MigrateIQ
+
+---
+
+## Instalação
+
+### Frontend (interface web)
+
+```bash
+# 1. Clonar o repositório
+git clone https://github.com/juliopessan/migrateiq.git
+cd migrateiq
+
+# 2. Instalar dependências do frontend
+npm install
+
+# 3. Iniciar em desenvolvimento (http://localhost:3002)
+npm run dev
+```
+
+### Engine de migração
+
+```bash
+# Instalar dependências do engine separadamente
+cd engine
+npm install
+
+# Copiar e configurar variáveis de ambiente
+cp .env.example .env
+# Edite .env com suas credenciais de banco e cloud
+
+# Executar uma migração
+npm run migrate -- run --manifest ../migrations/manifests/full-load.template.yaml
+
+# Inspecionar schema de origem
+npm run migrate -- inspect --manifest ../migrations/manifests/full-load.template.yaml
+```
+
+---
+
+## Outros comandos
+
+### Frontend
+```bash
+npm run build       # Build de produção
+npm run start       # Iniciar build de produção
+npm run typecheck   # Verificar tipos TypeScript
+npm run lint        # Verificar estilo de código
+```
+
+### Engine
+```bash
+cd engine
+npm run build       # Compilar TypeScript
+npm run typecheck   # Verificar tipos
+npm run dev         # Watch mode
+```
+
+### Smoke tests (plugin)
+```bash
+bash plugins/ruflo-data-migration/scripts/smoke.sh
+# Expected: 24 passed, 0 failed
+```
+
+---
+
+## Configuração do Engine (`.env`)
+
+```env
+# SQL Server
+MSSQL_HOST=localhost
+MSSQL_PORT=1433
+MSSQL_USER=sa
+MSSQL_PASSWORD=your_password
+MSSQL_DATABASE=source_db
+
+# PostgreSQL
+PG_HOST=localhost
+PG_PORT=5432
+PG_USER=postgres
+PG_PASSWORD=your_password
+PG_DATABASE=source_db
+
+# MySQL
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=your_password
+MYSQL_DATABASE=source_db
+
+# Databricks
+DATABRICKS_HOST=https://your-workspace.azuredatabricks.net
+DATABRICKS_TOKEN=dapi...
+DATABRICKS_WAREHOUSE_ID=abc123
+
+# Microsoft Fabric
+FABRIC_TENANT_ID=your-tenant-id
+FABRIC_CLIENT_ID=your-client-id
+FABRIC_CLIENT_SECRET=your-secret
+FABRIC_WORKSPACE_ID=your-workspace-id
 ```
 
 ---
@@ -59,7 +186,7 @@ migrateiq/
 ## Features
 
 ### AI Schema Mapper
-Detecta e mapeia automaticamente colunas equivalentes entre sistemas com base em heurísticas de IA. Aprende com cada migração via feedback loop.
+Detecta e mapeia automaticamente colunas equivalentes entre sistemas. Aprende com cada migração via feedback loop.
 
 ### Incremental com Watermark
 Detecta automaticamente colunas de timestamp (`updated_at`, `modified_at`, etc.) para cargas incrementais com checkpoint de retomada automática.
@@ -75,86 +202,15 @@ PII masking em nível de coluna via YAML. Logs de auditoria completos compatíve
 
 ---
 
-## Pré-requisitos
-
-- **Node.js 18+** — [nodejs.org/download](https://nodejs.org/download)
-- **npm 9+** (incluído com o Node.js)
-
-Verificar versões:
-
-```bash
-node --version   # deve ser >= 18
-npm --version    # deve ser >= 9
-```
-
-## Instalação
-
-```bash
-# 1. Clonar o repositório
-git clone https://github.com/juliopessan/migrateiq.git
-cd migrateiq
-
-# 2. Instalar dependências
-npm install
-
-# 3. Iniciar em desenvolvimento (abre em http://localhost:3002)
-npm run dev
-```
-
-Abra [http://localhost:3002](http://localhost:3002) no navegador.
-
-## Outros comandos
-
-```bash
-npm run build       # Build de produção
-npm run start       # Iniciar build de produção (requer npm run build antes)
-npm run typecheck   # Verificar tipos TypeScript
-npm run lint        # Verificar estilo de código
-```
-
----
-
-## Design System
-
-O projeto usa um design system próprio via Tailwind CSS com tokens de cor, tipografia e espaçamento.
-
-**Paleta principal:**
-
-| Token | Hex | Uso |
-|-------|-----|-----|
-| `orange` | `#FF5800` | Cor primária — CTAs, destaques |
-| `grey-80` | `#333333` | Texto principal |
-| `grey-60` | `#666666` | Texto secundário |
-| `grey-10` | `#e5e5e5` | Backgrounds de seção |
-| `success` | `#00A650` | Status positivo |
-| `info` | `#0078D4` | Status informativo |
-
-**Gradients:**
-
-```
-master:  #FF5800 → #890078  (laranja → aurora)
-warm:    #FFD700 → #FF5800  (solar → laranja)
-```
-
-**Componentes CSS globais:**
-
-```css
-.card                    /* Card com borda laranja de 4px no topo + sombra */
-.gradient-text           /* Texto com gradient laranja → aurora */
-.accent-bar--gradient    /* Barra de acento gradient horizontal */
-```
-
-Tipografia: **Segoe UI** (Light 300 para títulos H1/H2, Semibold 600 para H3/H5).
-
----
-
 ## Planos
 
-| Plano | Preço | Linhas / mês | Conexões |
-|-------|-------|-------------|----------|
-| Starter | Grátis | 1M | 1 + 1 |
-| Pro | R$ 990/mês | 50M | 5 |
-| Enterprise | Sob consulta | Ilimitado | Ilimitado |
+| Plano | Linhas / mês | Conexões |
+|-------|-------------|----------|
+| Starter | 1M | 1 + 1 |
+| Pro | 50M | 5 |
+| Enterprise | Ilimitado | Ilimitado |
+
+Todos os planos sob consulta — [falar com vendas](mailto:contato@migrateiq.com.br).
 
 ---
 
@@ -162,9 +218,9 @@ Tipografia: **Segoe UI** (Light 300 para títulos H1/H2, Semibold 600 para H3/H5
 
 - [ ] Conectores SAP, TOTVS e Salesforce
 - [ ] Monitor em tempo real com WebSocket
-- [ ] CLI para execução local de manifests
-- [ ] API pública REST para integração com pipelines
+- [ ] API pública REST
 - [ ] Deploy on-prem (Docker / Kubernetes)
+- [ ] Interface de configuração de manifests (no-code)
 
 ---
 

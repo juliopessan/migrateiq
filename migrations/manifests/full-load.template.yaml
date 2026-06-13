@@ -1,0 +1,43 @@
+id: migration-001
+name: "Full Load — SQL Server to Databricks Bronze"
+
+source:
+  type: sqlserver          # postgresql | sqlserver | mysql
+  host: ${MSSQL_HOST}
+  port: 1433
+  database: ${MSSQL_DATABASE}
+  user: ${MSSQL_USER}
+  password: ${MSSQL_PASSWORD}
+  schemas:
+    - dbo
+  # tables:               # omit to migrate all tables in schema
+  #   - customers
+  #   - orders
+  # excludeTables:
+  #   - sysdiagrams
+
+target:
+  type: databricks          # databricks | fabric
+  medallionLayer: bronze    # bronze | silver | gold
+  databricks:
+    host: ${DATABRICKS_HOST}
+    token: ${DATABRICKS_TOKEN}
+    catalog: ${DATABRICKS_CATALOG}
+    schema: ${DATABRICKS_SCHEMA}
+    warehouseId: ${DATABRICKS_WAREHOUSE_ID}
+
+strategy: full
+
+batchSize: 10000
+maxRetries: 3
+
+# Optional column-level transformations
+transformations: []
+# transformations:
+#   - table: customers
+#     column: email
+#     operation: mask
+#   - table: customers
+#     column: full_name
+#     operation: rename
+#     targetColumn: customer_name

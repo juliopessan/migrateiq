@@ -1,0 +1,41 @@
+id: migration-002
+name: "Incremental — PostgreSQL to Microsoft Fabric Silver"
+
+source:
+  type: postgresql          # postgresql | sqlserver | mysql
+  host: ${PG_HOST}
+  port: 5432
+  database: ${PG_DATABASE}
+  user: ${PG_USER}
+  password: ${PG_PASSWORD}
+  schemas:
+    - public
+
+target:
+  type: fabric              # databricks | fabric
+  medallionLayer: silver
+  fabric:
+    tenantId: ${FABRIC_TENANT_ID}
+    clientId: ${FABRIC_CLIENT_ID}
+    clientSecret: ${FABRIC_CLIENT_SECRET}
+    workspaceId: ${FABRIC_WORKSPACE_ID}
+    lakehouseId: ${FABRIC_LAKEHOUSE_ID}
+    server: ${FABRIC_SERVER}
+    database: ${FABRIC_DATABASE}
+
+strategy: incremental
+
+incremental:
+  watermarkColumn: updated_at     # auto-detected if omitted (looks for updated_at, modified_at, etc.)
+  lastWatermark: "2024-01-01"    # starting point — update after each run via checkpoint
+
+batchSize: 5000
+maxRetries: 3
+
+transformations:
+  - table: orders
+    column: customer_email
+    operation: mask
+  - table: products
+    column: internal_cost
+    operation: mask
