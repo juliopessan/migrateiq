@@ -341,7 +341,7 @@ function CTA() {
         </p>
         <div className="flex flex-row gap-4 justify-center">
           <Link href="/app/dashboard">
-            <Button size="lg" className="bg-white text-ava-orange hover:bg-ava-grey-10">
+            <Button size="lg" variant="gradient">
               Começar grátis <ChevronRight size={18} />
             </Button>
           </Link>
