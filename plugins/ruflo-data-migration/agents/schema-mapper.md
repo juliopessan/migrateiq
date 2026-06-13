@@ -85,6 +85,18 @@ tables:
 - `mcp__claude-flow__memory_store` — save approved mapping (namespace: `data-migration-mapping`)
 - `Write` — write final mapping YAML
 
+## Telemetry
+
+Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
+
+```ts
+tracker.start('schema-mapping');                  // model: Sonnet 4.6
+// ... finalize and approve mapping ...
+tracker.end('schema-mapping', { input, output, cacheRead });
+```
+
+Report actual token usage on completion. Telemetry (duration, tokens, model, cost) is persisted to AgentDB `data-migration-telemetry` and consumed by the `lifecycle-report` skill.
+
 ## Related Agents
 - `to-be-designer` — predecessor (provides draft mapping)
 - `code-generator` — consumes approved mapping to generate ETL scripts

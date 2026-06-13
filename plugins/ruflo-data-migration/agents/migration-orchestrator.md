@@ -68,6 +68,23 @@ Failed tables:
   - dbo.legacy_table: connection timeout after 3 retries
 ```
 
+## Telemetry
+
+You own the `PhaseTracker` for the whole migration. Initialize it at the start and pass it to every agent you spawn so each phase records its own telemetry:
+
+```ts
+const tracker = new PhaseTracker(manifestId);
+// each spawned agent calls tracker.start(phase) / tracker.end(phase, tokens)
+
+tracker.start('execution');                       // your own phase, model: Opus 4.8
+// ... coordinate extraction + loading ...
+tracker.end('execution', { input, output, cacheRead });
+
+const report = tracker.aggregate();               // hand to lifecycle-report at the end
+```
+
+Telemetry (duration, tokens, model, cost) for all phases is persisted to AgentDB `data-migration-telemetry`. After the migration completes, the `lifecycle-report` skill aggregates every phase into the final consolidated report.
+
 ## Related Agents
 - `source-inspector` — schema discovery
 - `schema-mapper` — type mapping

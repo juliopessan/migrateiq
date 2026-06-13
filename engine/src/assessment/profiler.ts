@@ -1,5 +1,26 @@
-import type { BaseConnector } from '../connectors/sources/base-connector.js';
 import { logger } from '../utils/logger.js';
+
+/**
+ * Minimal data source the profiler needs. Kept independent of the migration
+ * `SourceConnector` so profiling can run against any backend (live DB, sample
+ * export, or a mock) without dragging in extraction concerns.
+ */
+export interface ProfilerDataSource {
+  listTables(schema: string): Promise<string[]>;
+  getRowCount(schema: string, table: string): Promise<number>;
+  getColumns(schema: string, table: string): Promise<Array<{ name: string; type: string; isPrimaryKey?: boolean }>>;
+  getColumnStats(schema: string, table: string, column: string, sampleSize: number): Promise<ColumnStats>;
+}
+
+export interface ColumnStats {
+  nullCount: number;
+  distinctCount: number;
+  emptyStringCount: number;
+  minValue: unknown;
+  maxValue: unknown;
+  avgValue?: number;
+  topValues?: Array<{ value: unknown; count: number }>;
+}
 
 export interface ColumnProfile {
   name: string;
@@ -42,7 +63,7 @@ const SAMPLE_SIZE = 1000;
 const WATERMARK_HINTS = ['updated_at', 'modified_at', 'dt_atualizacao', 'data_atualizacao', 'timestamp'];
 
 export class DataProfiler {
-  constructor(private connector: BaseConnector) {}
+  constructor(private connector: ProfilerDataSource) {}
 
   async profileTable(schema: string, table: string): Promise<TableProfile> {
     const fqn = `${schema}.${table}`;

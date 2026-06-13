@@ -67,6 +67,7 @@ check "test-generate skill"            "[ -f '$PLUGIN_DIR/skills/test-generate/S
 check "cutover-plan skill"             "[ -f '$PLUGIN_DIR/skills/cutover-plan/SKILL.md' ]"
 check "reconciliation skill"           "[ -f '$PLUGIN_DIR/skills/reconciliation/SKILL.md' ]"
 check "compliance-report skill"        "[ -f '$PLUGIN_DIR/skills/compliance-report/SKILL.md' ]"
+check "lifecycle-report skill"         "[ -f '$PLUGIN_DIR/skills/lifecycle-report/SKILL.md' ]"
 
 # ── Commands ─────────────────────────────────────────────────────────────────
 check "migration command"              "[ -f '$PLUGIN_DIR/commands/migration.md' ]"
@@ -89,6 +90,8 @@ check "generation ddl-generator"       "[ -f '$ENGINE_DIR/src/generation/ddl-gen
 check "testing reconciler"             "[ -f '$ENGINE_DIR/src/testing/reconciler.ts' ]"
 check "reporting report-generator"     "[ -f '$ENGINE_DIR/src/reporting/report-generator.ts' ]"
 check "compliance audit-logger"        "[ -f '$ENGINE_DIR/src/compliance/audit-logger.ts' ]"
+check "telemetry phase-tracker"        "[ -f '$ENGINE_DIR/src/telemetry/phase-tracker.ts' ]"
+check "telemetry lifecycle-reporter"   "[ -f '$ENGINE_DIR/src/telemetry/lifecycle-reporter.ts' ]"
 
 # ── Manifests — original (2) ──────────────────────────────────────────────────
 check "full-load template"             "[ -f '$ROOT_DIR/migrations/manifests/full-load.template.yaml' ]"
@@ -104,6 +107,7 @@ check "to-be-design template"          "[ -f '$ROOT_DIR/migrations/docs/template
 check "cutover-runbook template"       "[ -f '$ROOT_DIR/migrations/docs/templates/cutover-runbook.md' ]"
 check "executive-report template"      "[ -f '$ROOT_DIR/migrations/docs/templates/executive-report.md' ]"
 check "compliance-report template"     "[ -f '$ROOT_DIR/migrations/docs/templates/compliance-report.md' ]"
+check "lifecycle-report template"      "[ -f '$ROOT_DIR/migrations/docs/templates/lifecycle-report.md' ]"
 
 # ── Engine package + tsconfig ─────────────────────────────────────────────────
 check "engine package.json"           "[ -f '$ENGINE_DIR/package.json' ]"

@@ -105,6 +105,18 @@ You are the Data Profiler agent. You run after pre-assessment to answer: "What i
 - `mcp__claude-flow__memory_store` — save profiling results (namespace: `data-migration-profiling`)
 - `mcp__claude-flow__memory_search` — recall pre-assessment context
 
+## Telemetry
+
+Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
+
+```ts
+tracker.start('data-profiling');                  // model: Opus 4.8
+// ... profile all tables ...
+tracker.end('data-profiling', { input, output, cacheRead });
+```
+
+Report actual token usage on completion. Telemetry (duration, tokens, model, cost) is persisted to AgentDB `data-migration-telemetry` and consumed by the `lifecycle-report` skill.
+
 ## Related Agents
 - `pre-assessment-analyst` — predecessor
 - `as-is-documenter` — consumes profiling output to generate documentation

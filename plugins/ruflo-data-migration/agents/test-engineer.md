@@ -88,6 +88,18 @@ You are the Test Engineer agent. You own all quality gates between code generati
 - `mcp__claude-flow__memory_store` — save test results (namespace: `data-migration-tests`)
 - `Bash` — run generated test files
 
+## Telemetry
+
+Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
+
+```ts
+tracker.start('testing');                         // model: Sonnet 4.6
+// ... generate and run test suite ...
+tracker.end('testing', { input, output, cacheRead });
+```
+
+Report actual token usage on completion. Telemetry (duration, tokens, model, cost) is persisted to AgentDB `data-migration-telemetry` and consumed by the `lifecycle-report` skill.
+
 ## Related Agents
 - `code-generator` — predecessor (provides generated tests to enrich)
 - `cutover-planner` — receives PASS verdict to proceed to cutover

@@ -5,7 +5,7 @@
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwindcss)
-![Smoke Tests](https://img.shields.io/badge/smoke%20tests-61%2F61-brightgreen)
+![Smoke Tests](https://img.shields.io/badge/smoke%20tests-65%2F65-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
@@ -36,6 +36,8 @@ MigrateIQ elimina semanas de scripts ETL manuais. A plataforma cobre o ciclo com
 10. Post-Migration   → Relatório executivo, lineage final, pacote de conformidade LGPD/SOX
 ```
 
+**Telemetria em todas as fases:** cada uma das 10 fases é rastreada por um `PhaseTracker` que registra duração, tokens (input/output/cache), modelo usado e custo estimado. Ao final, o `lifecycle-report` consolida tudo em um relatório único — com a tabela de modelos utilizados e o custo total da orquestração de IA.
+
 ---
 
 ## Estrutura do Repositório
@@ -63,6 +65,7 @@ migrateiq/
 │   │   ├── testing/                  # Reconciler
 │   │   ├── reporting/                # Report Generator
 │   │   ├── compliance/               # Audit Logger
+│   │   ├── telemetry/                # Phase Tracker, Lifecycle Reporter
 │   │   └── utils/                    # Checkpoint, Logger, Retry
 │   ├── package.json
 │   └── tsconfig.json
@@ -82,7 +85,7 @@ migrateiq/
 │       │   ├── migration-orchestrator.md
 │       │   ├── source-inspector.md
 │       │   └── migration-validator.md
-│       ├── skills/                   # 17 skills (5 execução + 12 ciclo completo)
+│       ├── skills/                   # 18 skills (5 execução + 12 ciclo + telemetria)
 │       │   ├── pre-assessment/
 │       │   ├── data-profiling/
 │       │   ├── pii-scan/
@@ -101,7 +104,7 @@ migrateiq/
 │       │   ├── migration-rollback/
 │       │   └── migration-validate/
 │       ├── commands/
-│       └── scripts/smoke.sh          # 61 smoke tests
+│       └── scripts/smoke.sh          # 65 smoke tests
 ├── migrations/
 │   ├── manifests/                    # Templates YAML (assessment, mapping, full-load, incremental)
 │   └── docs/templates/               # Templates de documentação (as-is, to-be, cutover, relatórios)
@@ -194,7 +197,7 @@ npm run dev         # Watch mode
 ### Smoke tests (plugin)
 ```bash
 bash plugins/ruflo-data-migration/scripts/smoke.sh
-# Expected: 61 passed, 0 failed
+# Expected: 65 passed, 0 failed
 ```
 
 ---
@@ -260,6 +263,29 @@ Todos os scripts ETL, DDL e testes são gerados para revisão humana antes de qu
 ### Cutover Planning
 Runbook de produção completo com timeline, triggers de rollback, plano de comunicação e checklist pré-cutover.
 
+### Telemetria e Relatório Final
+Cada fase é instrumentada com um `PhaseTracker` que captura duração, tokens, modelo usado e custo estimado — no mesmo formato do rodapé do Claude Code (`12m 18s · 39.9k tokens`). O `lifecycle-report` consolida todas as fases em um único relatório com a tabela de modelos utilizados, totais e ROI.
+
+```
+=== Relatório Final de Migração: migration-001 ===
+
+| Fase                 | Agente                  | Modelo     | Duração | Tokens | Custo    |
+|----------------------|-------------------------|------------|---------|--------|----------|
+| ✅ 1. Pre-Assessment | pre-assessment-analyst  | Opus 4.8   | 2m 10s  | 95.4k  | $0.4521  |
+| ✅ 2. Data Profiling | data-profiler           | Opus 4.8   | 5m 32s  | 210.0k | $1.2030  |
+| ✅ 3. As-Is          | as-is-documenter        | Sonnet 4.6 | 3m 05s  | 142.0k | $0.1820  |
+| ✅ 4. To-Be          | to-be-designer          | Opus 4.8   | 4m 48s  | 188.0k | $0.9900  |
+| ✅ 5. Schema Mapping | schema-mapper           | Sonnet 4.6 | 1m 50s  | 78.0k  | $0.0930  |
+| ✅ 6. Code Gen       | code-generator          | Opus 4.8   | 6m 20s  | 256.0k | $1.5400  |
+| ✅ 7. Testing        | test-engineer           | Sonnet 4.6 | 4m 12s  | 165.0k | $0.2050  |
+| ✅ 8. Cutover Plan   | cutover-planner         | Opus 4.8   | 2m 30s  | 98.0k  | $0.5100  |
+| ✅ 9. Execution      | migration-orchestrator  | Opus 4.8   | 12m 18s | 320.0k | $1.8800  |
+| ✅ 10. Post-Migration| post-migration-reporter | Sonnet 4.6 | 2m 40s  | 110.0k | $0.1380  |
+
+Modelos: Opus 4.8 (6 fases, $6.58) · Sonnet 4.6 (4 fases, $0.62)
+TOTAIS: 45m 25s · 1.76M tokens · $7.20 USD · 10/10 fases
+```
+
 ---
 
 ## Agentes
@@ -297,7 +323,7 @@ Todos os planos sob consulta — [falar com vendas](mailto:contato@migrateiq.com
 ## Verificação rápida
 
 ```bash
-# Smoke tests do plugin (deve retornar 61/61)
+# Smoke tests do plugin (deve retornar 65/65)
 bash plugins/ruflo-data-migration/scripts/smoke.sh
 
 # TypeScript do frontend

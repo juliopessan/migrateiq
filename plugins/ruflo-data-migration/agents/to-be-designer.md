@@ -113,6 +113,18 @@ Writes to: `docs/to-be-design-{id}.md` and `migrations/manifests/mapping-{id}.ya
 - `mcp__claude-flow__memory_store` — save to-be design (namespace: `data-migration-tobe`)
 - `Write` — generate DDL, mapping YAML, and to-be design document
 
+## Telemetry
+
+Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
+
+```ts
+tracker.start('to-be');                           // model: Opus 4.8
+// ... design target architecture ...
+tracker.end('to-be', { input, output, cacheRead });
+```
+
+Report actual token usage on completion. Telemetry (duration, tokens, model, cost) is persisted to AgentDB `data-migration-telemetry` and consumed by the `lifecycle-report` skill.
+
 ## Related Agents
 - `as-is-documenter` — predecessor
 - `schema-mapper` — reviews and finalizes the generated mapping

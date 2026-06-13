@@ -94,6 +94,18 @@ You are the Pre-Assessment Analyst agent. You run at the start of every migratio
 - `mcp__claude-flow__memory_store` — save pre-assessment result (namespace: `data-migration-preassessment`)
 - `mcp__claude-flow__memory_search` — recall any prior assessments of same source
 
+## Telemetry
+
+Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
+
+```ts
+tracker.start('pre-assessment');                  // model: Opus 4.8
+// ... do the assessment ...
+tracker.end('pre-assessment', { input, output, cacheRead });
+```
+
+Report your actual token usage (input/output/cache) on completion. The tracker persists duration, tokens, model, and estimated cost to AgentDB `data-migration-telemetry`. These records feed the `lifecycle-report` skill at the end of the migration.
+
 ## Related Agents
 - `data-profiler` — next phase (detailed quality profiling)
 - `as-is-documenter` — follows after profiling

@@ -77,6 +77,18 @@ For parallel run strategy, exit (decommission source) only when:
 - `mcp__claude-flow__memory_store` — save cutover plan (namespace: `data-migration-cutover`)
 - `Write` — generate cutover runbook markdown
 
+## Telemetry
+
+Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
+
+```ts
+tracker.start('cutover-planning');                // model: Opus 4.8
+// ... design cutover strategy and runbook ...
+tracker.end('cutover-planning', { input, output, cacheRead });
+```
+
+Report actual token usage on completion. Telemetry (duration, tokens, model, cost) is persisted to AgentDB `data-migration-telemetry` and consumed by the `lifecycle-report` skill.
+
 ## Related Agents
 - `test-engineer` — predecessor (PASS verdict required)
 - `migration-orchestrator` — executes the final production run

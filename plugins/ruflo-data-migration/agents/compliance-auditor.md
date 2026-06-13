@@ -99,6 +99,18 @@ target_access_policy:
 - `mcp__claude-flow__memory_search` — retrieve PII summary, mapping, and access config
 - `mcp__claude-flow__memory_store` — save compliance verdict (namespace: `data-migration-compliance`)
 
+## Telemetry
+
+Record your audit within the post-migration phase of the `PhaseTracker` so the compliance work appears in the final lifecycle report:
+
+```ts
+tracker.start('post-migration');                  // model: Opus 4.8 (shared with reporter)
+// ... run compliance audit ...
+tracker.end('post-migration', { input, output, cacheRead });
+```
+
+Report actual token usage on completion. Telemetry (duration, tokens, model, cost) is persisted to AgentDB `data-migration-telemetry` and consumed by the `lifecycle-report` skill.
+
 ## Related Agents
 - `data-profiler` — provides PII inventory
 - `schema-mapper` — provides masking coverage

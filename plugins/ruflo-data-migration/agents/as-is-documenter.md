@@ -78,6 +78,18 @@ Writes to: `docs/as-is-report-{assessmentId}.md` (from template `migrations/docs
 - `mcp__claude-flow__memory_store` — save as-is report reference (namespace: `data-migration-asis`)
 - `Write` — generate the as-is report markdown file
 
+## Telemetry
+
+Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
+
+```ts
+tracker.start('as-is');                           // model: Sonnet 4.6
+// ... generate as-is documentation ...
+tracker.end('as-is', { input, output, cacheRead });
+```
+
+Report actual token usage on completion. Telemetry (duration, tokens, model, cost) is persisted to AgentDB `data-migration-telemetry` and consumed by the `lifecycle-report` skill.
+
 ## Related Agents
 - `data-profiler` — predecessor (provides profiling data)
 - `to-be-designer` — consumes as-is to design the target state

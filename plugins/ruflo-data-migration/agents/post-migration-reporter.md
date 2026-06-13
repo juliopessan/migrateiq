@@ -91,6 +91,22 @@ You are the Post-Migration Reporter agent. You run after the migration validates
 - `mcp__claude-flow__memory_store` — save report metadata (namespace: `data-migration-reports`)
 - `Write` — generate all output documents
 
+## Telemetry & Final Report
+
+You produce the final lifecycle report. Record your own phase, then aggregate the full tracker:
+
+```ts
+tracker.start('post-migration');                  // model: Sonnet 4.6
+// ... generate executive summary, lineage, handover ...
+tracker.end('post-migration', { input, output, cacheRead });
+
+const telemetry = tracker.aggregate();
+// pass to LifecycleReporter.render(telemetry, businessMetrics)
+// → docs/lifecycle-report-{migrationId}.md
+```
+
+Always include the consolidated telemetry section (per-phase duration/tokens/model/cost + models-used breakdown + totals) by invoking the `lifecycle-report` skill. This is the report that shows the sponsor exactly how the AI orchestration was spent across all 10 phases.
+
 ## Related Agents
 - `migration-validator` — provides final validation results
 - `compliance-auditor` — provides compliance sign-off

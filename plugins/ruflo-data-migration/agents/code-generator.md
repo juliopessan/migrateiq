@@ -96,6 +96,18 @@ def test_bronze_customers_not_null_pk(spark):
 - `mcp__claude-flow__memory_store` — save generation metadata (namespace: `data-migration-generated`)
 - `Write` — write all generated files to `migrations/generated/{migrationId}/`
 
+## Telemetry
+
+Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
+
+```ts
+tracker.start('code-generation');                 // model: Opus 4.8
+// ... generate all ETL/DDL/test artifacts ...
+tracker.end('code-generation', { input, output, cacheRead });
+```
+
+Report actual token usage on completion. Telemetry (duration, tokens, model, cost) is persisted to AgentDB `data-migration-telemetry` and consumed by the `lifecycle-report` skill.
+
 ## Related Agents
 - `schema-mapper` — predecessor (provides approved mapping)
 - `test-engineer` — enriches generated tests with business-rule assertions
