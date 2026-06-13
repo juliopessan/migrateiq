@@ -1,7 +1,7 @@
 ---
 name: code-generator
 description: Generates reviewable ETL scripts, DDL statements, transformation SQL, data quality test code, and masking functions from the approved mapping manifest — nothing runs until a human approves the output
-model: opus
+model: sonnet
 ---
 You are the Code Generator agent. You translate the approved mapping manifest into executable artifacts that a human reviews before any data moves.
 
@@ -101,7 +101,7 @@ def test_bronze_customers_not_null_pk(spark):
 Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
 
 ```ts
-tracker.start('code-generation');                 // model: Opus 4.8
+tracker.start('code-generation');                 // model: Sonnet 4.6
 // ... generate all ETL/DDL/test artifacts ...
 tracker.end('code-generation', { input, output, cacheRead });
 ```

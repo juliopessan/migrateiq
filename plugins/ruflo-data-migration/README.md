@@ -16,7 +16,7 @@ claude --plugin-dir plugins/ruflo-data-migration
 
 | Agent | Model | Role |
 |-------|-------|------|
-| `migration-orchestrator` | opus | Swarm coordinator, strategy decisions, progress tracking |
+| `migration-orchestrator` | sonnet | Swarm coordinator, strategy decisions, progress tracking |
 | `source-inspector` | sonnet | Schema discovery, type mapping, row profiling |
 | `schema-mapper` | sonnet | Source→target type mapping, medallion layer design |
 | `data-extractor` | haiku | Batch extraction with cursor/watermark management |

@@ -1,7 +1,7 @@
 ---
 name: cutover-planner
 description: Designs the production cutover strategy — big bang, phased, or parallel run — generates the step-by-step runbook, defines rollback trigger criteria, and produces the communication plan
-model: opus
+model: sonnet
 ---
 You are the Cutover Planner agent. You design how the migration reaches production safely — the last thing that happens before real data flows.
 
@@ -82,7 +82,7 @@ For parallel run strategy, exit (decommission source) only when:
 Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
 
 ```ts
-tracker.start('cutover-planning');                // model: Opus 4.8
+tracker.start('cutover-planning');                // model: Sonnet 4.6
 // ... design cutover strategy and runbook ...
 tracker.end('cutover-planning', { input, output, cacheRead });
 ```

@@ -17,35 +17,37 @@ export type LifecyclePhase =
   | 'execution'
   | 'post-migration';
 
-export type ClaudeModel = 'claude-opus-4-8' | 'claude-sonnet-4-6' | 'claude-haiku-4-5';
+export type ClaudeModel = 'claude-sonnet-4-6' | 'claude-haiku-4-5';
 
 /**
  * Per-million-token pricing (USD). Update when Anthropic pricing changes.
  * cacheWrite = 1.25× input, cacheRead = 0.1× input (standard Anthropic ratios).
  */
 export const MODEL_PRICING: Record<ClaudeModel, { input: number; output: number; cacheWrite: number; cacheRead: number }> = {
-  'claude-opus-4-8':   { input: 15.0, output: 75.0, cacheWrite: 18.75, cacheRead: 1.5 },
   'claude-sonnet-4-6': { input: 3.0,  output: 15.0, cacheWrite: 3.75,  cacheRead: 0.3 },
   'claude-haiku-4-5':  { input: 1.0,  output: 5.0,  cacheWrite: 1.25,  cacheRead: 0.1 },
 };
 
 export const MODEL_LABEL: Record<ClaudeModel, string> = {
-  'claude-opus-4-8':   'Opus 4.8',
   'claude-sonnet-4-6': 'Sonnet 4.6',
   'claude-haiku-4-5':  'Haiku 4.5',
 };
 
-/** Default model assigned to each phase, mirroring the agent frontmatter. */
+/**
+ * Default model assigned to each phase, mirroring the agent frontmatter.
+ * Sonnet 4.6 for reasoning-heavy phases; Haiku 4.5 for high-volume,
+ * template-driven phases (documentation, test execution, reporting).
+ */
 export const PHASE_DEFAULT_MODEL: Record<LifecyclePhase, ClaudeModel> = {
-  'pre-assessment':   'claude-opus-4-8',
-  'data-profiling':   'claude-opus-4-8',
-  'as-is':            'claude-sonnet-4-6',
-  'to-be':            'claude-opus-4-8',
+  'pre-assessment':   'claude-sonnet-4-6',
+  'data-profiling':   'claude-sonnet-4-6',
+  'as-is':            'claude-haiku-4-5',
+  'to-be':            'claude-sonnet-4-6',
   'schema-mapping':   'claude-sonnet-4-6',
-  'code-generation':  'claude-opus-4-8',
-  'testing':          'claude-sonnet-4-6',
-  'cutover-planning': 'claude-opus-4-8',
-  'execution':        'claude-opus-4-8',
+  'code-generation':  'claude-sonnet-4-6',
+  'testing':          'claude-haiku-4-5',
+  'cutover-planning': 'claude-sonnet-4-6',
+  'execution':        'claude-sonnet-4-6',
   'post-migration':   'claude-sonnet-4-6',
 };
 

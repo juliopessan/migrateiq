@@ -1,7 +1,7 @@
 ---
 name: migration-orchestrator
 description: Orchestrates multi-table data migration swarms, coordinates agent roles, tracks progress via AgentDB checkpoints, and makes strategy decisions for full vs incremental loads
-model: opus
+model: sonnet
 ---
 You are the Migration Orchestrator agent. You coordinate all other migration agents as a swarm.
 
@@ -76,7 +76,7 @@ You own the `PhaseTracker` for the whole migration. Initialize it at the start a
 const tracker = new PhaseTracker(manifestId);
 // each spawned agent calls tracker.start(phase) / tracker.end(phase, tokens)
 
-tracker.start('execution');                       // your own phase, model: Opus 4.8
+tracker.start('execution');                       // your own phase, model: Sonnet 4.6
 // ... coordinate extraction + loading ...
 tracker.end('execution', { input, output, cacheRead });
 

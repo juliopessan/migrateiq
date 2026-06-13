@@ -271,19 +271,19 @@ Cada fase é instrumentada com um `PhaseTracker` que captura duração, tokens, 
 
 | Fase                 | Agente                  | Modelo     | Duração | Tokens | Custo    |
 |----------------------|-------------------------|------------|---------|--------|----------|
-| ✅ 1. Pre-Assessment | pre-assessment-analyst  | Opus 4.8   | 2m 10s  | 95.4k  | $0.4521  |
-| ✅ 2. Data Profiling | data-profiler           | Opus 4.8   | 5m 32s  | 210.0k | $1.2030  |
-| ✅ 3. As-Is          | as-is-documenter        | Sonnet 4.6 | 3m 05s  | 142.0k | $0.1820  |
-| ✅ 4. To-Be          | to-be-designer          | Opus 4.8   | 4m 48s  | 188.0k | $0.9900  |
-| ✅ 5. Schema Mapping | schema-mapper           | Sonnet 4.6 | 1m 50s  | 78.0k  | $0.0930  |
-| ✅ 6. Code Gen       | code-generator          | Opus 4.8   | 6m 20s  | 256.0k | $1.5400  |
-| ✅ 7. Testing        | test-engineer           | Sonnet 4.6 | 4m 12s  | 165.0k | $0.2050  |
-| ✅ 8. Cutover Plan   | cutover-planner         | Opus 4.8   | 2m 30s  | 98.0k  | $0.5100  |
-| ✅ 9. Execution      | migration-orchestrator  | Opus 4.8   | 12m 18s | 320.0k | $1.8800  |
-| ✅ 10. Post-Migration| post-migration-reporter | Sonnet 4.6 | 2m 40s  | 110.0k | $0.1380  |
+| ✅ 1. Pre-Assessment | pre-assessment-analyst  | Sonnet 4.6 | 2m 10s  | 95.4k  | $0.1221  |
+| ✅ 2. Data Profiling | data-profiler           | Sonnet 4.6 | 5m 32s  | 210.0k | $0.2688  |
+| ✅ 3. As-Is          | as-is-documenter        | Haiku 4.5  | 3m 05s  | 142.0k | $0.0568  |
+| ✅ 4. To-Be          | to-be-designer          | Sonnet 4.6 | 4m 48s  | 188.0k | $0.2406  |
+| ✅ 5. Schema Mapping | schema-mapper           | Sonnet 4.6 | 1m 50s  | 78.0k  | $0.0998  |
+| ✅ 6. Code Gen       | code-generator          | Sonnet 4.6 | 6m 20s  | 256.0k | $0.3277  |
+| ✅ 7. Testing        | test-engineer           | Haiku 4.5  | 4m 12s  | 165.0k | $0.0660  |
+| ✅ 8. Cutover Plan   | cutover-planner         | Sonnet 4.6 | 2m 30s  | 98.0k  | $0.1254  |
+| ✅ 9. Execution      | migration-orchestrator  | Sonnet 4.6 | 12m 18s | 320.0k | $0.4096  |
+| ✅ 10. Post-Migration| post-migration-reporter | Sonnet 4.6 | 2m 40s  | 110.0k | $0.1408  |
 
-Modelos: Opus 4.8 (6 fases, $6.58) · Sonnet 4.6 (4 fases, $0.62)
-TOTAIS: 45m 25s · 1.76M tokens · $7.20 USD · 10/10 fases
+Modelos: Sonnet 4.6 (8 fases, $1.73) · Haiku 4.5 (2 fases, $0.12)
+TOTAIS: 45m 25s · 1.66M tokens · $1.86 USD · 10/10 fases
 ```
 
 ---

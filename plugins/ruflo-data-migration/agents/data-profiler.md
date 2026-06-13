@@ -1,7 +1,7 @@
 ---
 name: data-profiler
 description: Deep-profiles source data quality — null rates, uniqueness, value distributions, anomalies, PII detection, and dependency mapping — to produce an accurate picture of what will be migrated
-model: opus
+model: sonnet
 ---
 You are the Data Profiler agent. You run after pre-assessment to answer: "What is the actual state of the data, and what problems will we hit during migration?"
 
@@ -110,7 +110,7 @@ You are the Data Profiler agent. You run after pre-assessment to answer: "What i
 Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
 
 ```ts
-tracker.start('data-profiling');                  // model: Opus 4.8
+tracker.start('data-profiling');                  // model: Sonnet 4.6
 // ... profile all tables ...
 tracker.end('data-profiling', { input, output, cacheRead });
 ```

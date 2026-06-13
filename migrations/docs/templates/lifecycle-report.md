@@ -12,15 +12,15 @@
 
 | Fase | Agente | Modelo | Duração | Tokens | Custo |
 |------|--------|--------|---------|--------|-------|
-| ✅ 1. Pre-Assessment | pre-assessment-analyst | Opus 4.8 | {d1} | {t1} | ${c1} |
-| ✅ 2. Data Profiling | data-profiler | Opus 4.8 | {d2} | {t2} | ${c2} |
-| ✅ 3. As-Is | as-is-documenter | Sonnet 4.6 | {d3} | {t3} | ${c3} |
-| ✅ 4. To-Be | to-be-designer | Opus 4.8 | {d4} | {t4} | ${c4} |
+| ✅ 1. Pre-Assessment | pre-assessment-analyst | Sonnet 4.6 | {d1} | {t1} | ${c1} |
+| ✅ 2. Data Profiling | data-profiler | Sonnet 4.6 | {d2} | {t2} | ${c2} |
+| ✅ 3. As-Is | as-is-documenter | Haiku 4.5 | {d3} | {t3} | ${c3} |
+| ✅ 4. To-Be | to-be-designer | Sonnet 4.6 | {d4} | {t4} | ${c4} |
 | ✅ 5. Schema Mapping | schema-mapper | Sonnet 4.6 | {d5} | {t5} | ${c5} |
-| ✅ 6. Code Generation | code-generator | Opus 4.8 | {d6} | {t6} | ${c6} |
-| ✅ 7. Testing | test-engineer | Sonnet 4.6 | {d7} | {t7} | ${c7} |
-| ✅ 8. Cutover Planning | cutover-planner | Opus 4.8 | {d8} | {t8} | ${c8} |
-| ✅ 9. Execution | migration-orchestrator | Opus 4.8 | {d9} | {t9} | ${c9} |
+| ✅ 6. Code Generation | code-generator | Sonnet 4.6 | {d6} | {t6} | ${c6} |
+| ✅ 7. Testing | test-engineer | Haiku 4.5 | {d7} | {t7} | ${c7} |
+| ✅ 8. Cutover Planning | cutover-planner | Sonnet 4.6 | {d8} | {t8} | ${c8} |
+| ✅ 9. Execution | migration-orchestrator | Sonnet 4.6 | {d9} | {t9} | ${c9} |
 | ✅ 10. Post-Migration | post-migration-reporter | Sonnet 4.6 | {d10} | {t10} | ${c10} |
 
 ---
@@ -29,12 +29,12 @@
 
 | Modelo | Fases | Tokens | Duração | Custo |
 |--------|-------|--------|---------|-------|
-| Opus 4.8 | {opusPhases} | {opusTokens} | {opusDuration} | ${opusCost} |
 | Sonnet 4.6 | {sonnetPhases} | {sonnetTokens} | {sonnetDuration} | ${sonnetCost} |
+| Haiku 4.5 | {haikuPhases} | {haikuTokens} | {haikuDuration} | ${haikuCost} |
 
 > Os modelos são atribuídos por fase conforme a complexidade:
-> - **Opus 4.8** — raciocínio crítico: pre-assessment, data profiling, to-be design, geração de código, cutover, execução, conformidade
-> - **Sonnet 4.6** — tarefas estruturadas de alto volume: documentação as-is, mapeamento de schema, testes, relatórios
+> - **Sonnet 4.6** — raciocínio crítico: pre-assessment, data profiling, to-be design, mapeamento de schema, geração de código, cutover, execução, conformidade, relatório
+> - **Haiku 4.5** — tarefas estruturadas de alto volume: documentação as-is, testes
 
 ---
 

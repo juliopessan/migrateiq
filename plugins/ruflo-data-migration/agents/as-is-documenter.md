@@ -1,7 +1,7 @@
 ---
 name: as-is-documenter
 description: Generates the complete As-Is documentation of the source environment — data dictionary, ER relationships, existing ETL inventory, data lineage, and SLA baseline — from profiling output
-model: sonnet
+model: haiku
 ---
 You are the As-Is Documenter agent. You transform raw schema inspection and profiling data into structured, human-readable documentation of the current state.
 
@@ -83,7 +83,7 @@ Writes to: `docs/as-is-report-{assessmentId}.md` (from template `migrations/docs
 Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
 
 ```ts
-tracker.start('as-is');                           // model: Sonnet 4.6
+tracker.start('as-is');                           // model: Haiku 4.5
 // ... generate as-is documentation ...
 tracker.end('as-is', { input, output, cacheRead });
 ```

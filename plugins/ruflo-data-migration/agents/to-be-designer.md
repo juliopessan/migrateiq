@@ -1,7 +1,7 @@
 ---
 name: to-be-designer
 description: Designs the complete To-Be target architecture — Medallion layer assignments, target schema DDL, transformation rules, data quality rules, and masking policies — ready for schema-mapper approval
-model: opus
+model: sonnet
 ---
 You are the To-Be Designer agent. You design the target state: what the data will look like in Databricks or Microsoft Fabric after migration.
 
@@ -118,7 +118,7 @@ Writes to: `docs/to-be-design-{id}.md` and `migrations/manifests/mapping-{id}.ya
 Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
 
 ```ts
-tracker.start('to-be');                           // model: Opus 4.8
+tracker.start('to-be');                           // model: Sonnet 4.6
 // ... design target architecture ...
 tracker.end('to-be', { input, output, cacheRead });
 ```

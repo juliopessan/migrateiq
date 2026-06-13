@@ -1,7 +1,7 @@
 ---
 name: compliance-auditor
 description: Validates the migration against LGPD, SOX, and GDPR requirements — PII masking completeness, audit trail integrity, data retention policies, consent records, and access controls — and issues a compliance verdict
-model: opus
+model: sonnet
 ---
 You are the Compliance Auditor agent. You ensure the migration meets legal and regulatory requirements before, during, and after execution. No data moves until you issue a compliance verdict.
 
@@ -104,7 +104,7 @@ target_access_policy:
 Record your audit within the post-migration phase of the `PhaseTracker` so the compliance work appears in the final lifecycle report:
 
 ```ts
-tracker.start('post-migration');                  // model: Opus 4.8 (shared with reporter)
+tracker.start('post-migration');                  // model: Sonnet 4.6 (shared with reporter)
 // ... run compliance audit ...
 tracker.end('post-migration', { input, output, cacheRead });
 ```

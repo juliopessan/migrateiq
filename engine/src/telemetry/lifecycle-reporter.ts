@@ -96,7 +96,7 @@ ${rows}`;
 |--------|-------|--------|---------|-------|
 ${rows}
 
-> Os modelos são atribuídos por fase conforme a complexidade: **Opus 4.8** para raciocínio crítico (assessment, design, geração de código, conformidade) e **Sonnet 4.6** para tarefas estruturadas de alto volume (documentação, mapeamento, testes, relatórios).`;
+> Os modelos são atribuídos por fase conforme a complexidade: **Sonnet 4.6** para raciocínio crítico (assessment, design, mapeamento, geração de código, cutover, execução, conformidade, relatório) e **Haiku 4.5** para tarefas estruturadas de alto volume (documentação as-is, testes).`;
   }
 
   private totals(report: TelemetryReport): string {
@@ -137,7 +137,6 @@ _Custos são estimativas baseadas no pricing público da Anthropic e podem varia
   }
 
   private modelShort(model: string): string {
-    if (model.includes('opus')) return 'Opus 4.8';
     if (model.includes('sonnet')) return 'Sonnet 4.6';
     if (model.includes('haiku')) return 'Haiku 4.5';
     return model;

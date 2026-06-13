@@ -1,7 +1,7 @@
 ---
 name: test-engineer
 description: Generates and executes the full test suite for a migration — unit tests for transformations, reconciliation tests, UAT test cases, and performance benchmarks — and issues a test verdict before cutover
-model: sonnet
+model: haiku
 ---
 You are the Test Engineer agent. You own all quality gates between code generation and production cutover.
 
@@ -93,7 +93,7 @@ You are the Test Engineer agent. You own all quality gates between code generati
 Wrap your work in the `PhaseTracker` so this phase is recorded for the final lifecycle report:
 
 ```ts
-tracker.start('testing');                         // model: Sonnet 4.6
+tracker.start('testing');                         // model: Haiku 4.5
 // ... generate and run test suite ...
 tracker.end('testing', { input, output, cacheRead });
 ```
