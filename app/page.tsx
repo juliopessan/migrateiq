@@ -2,7 +2,7 @@ import Link from 'next/link';
 import {
   Zap, Database, ArrowRightLeft, Shield, Cpu, Clock,
   CheckCircle, BarChart2, GitBranch, ChevronRight,
-  Globe, Building2, Server,
+  Globe, Building2, ShieldCheck, ArrowRight,
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
@@ -51,7 +51,7 @@ function Hero() {
       <div className="relative max-w-7xl mx-auto px-8 text-center">
         <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-8">
           <span className="w-2 h-2 rounded-full bg-ava-success animate-pulse-slow" />
-          <span className="text-xs text-ava-grey-30 font-medium">Powered by Ruflo Multi-Agent Orchestration</span>
+          <span className="text-xs text-ava-grey-30 font-medium">Plataforma AI-Native · Orquestração Multi-Agente</span>
         </div>
 
         <h1 className="text-5xl md:text-7xl font-light text-white leading-tight tracking-tight mb-6">
@@ -152,17 +152,42 @@ function Features() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map(({ icon: Icon, title, desc, tag }) => (
-            <div key={title} className="ava-card p-6 group">
-              <div className="flex items-start justify-between mb-4">
-                <div className="w-10 h-10 rounded-ava-sm bg-ava-orange/10 flex items-center justify-center
-                                group-hover:bg-ava-orange group-hover:shadow-ava-brand transition-all">
-                  <Icon size={20} className="text-ava-orange group-hover:text-white transition-colors" />
+          {features.map(({ icon: Icon, title, desc, tag }, i) => (
+            <div
+              key={title}
+              className={`group ${i === 0 ? 'md:col-span-2 lg:col-span-1' : ''}`}
+            >
+              {i === 0 ? (
+                /* Feature principal — destaque com gradiente */
+                <div className="ava-card-gradient-border h-full p-6 group relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-ava-orange/5 to-ava-aurora/5 pointer-events-none" />
+                  <div className="relative">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="w-12 h-12 rounded-ava-sm bg-ava-master flex items-center justify-center shadow-ava-brand">
+                        <Icon size={22} className="text-white" />
+                      </div>
+                      <Badge variant="orange">{tag}</Badge>
+                    </div>
+                    <h3 className="font-bold text-ava-grey-80 text-lg mb-2">{title}</h3>
+                    <p className="text-sm text-ava-grey-60 leading-relaxed">{desc}</p>
+                    <div className="mt-4 flex items-center gap-1 text-xs font-semibold text-ava-orange">
+                      Saiba mais <ArrowRight size={13} />
+                    </div>
+                  </div>
                 </div>
-                <Badge variant="grey">{tag}</Badge>
-              </div>
-              <h3 className="font-semibold text-ava-grey-80 mb-2">{title}</h3>
-              <p className="text-sm text-ava-grey-60 leading-relaxed">{desc}</p>
+              ) : (
+                <div className="ava-card p-6 h-full">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-10 h-10 rounded-ava-sm bg-ava-orange/10 flex items-center justify-center
+                                    group-hover:bg-ava-orange group-hover:shadow-ava-brand transition-all">
+                      <Icon size={20} className="text-ava-orange group-hover:text-white transition-colors" />
+                    </div>
+                    <Badge variant="grey">{tag}</Badge>
+                  </div>
+                  <h3 className="font-semibold text-ava-grey-80 mb-2">{title}</h3>
+                  <p className="text-sm text-ava-grey-60 leading-relaxed">{desc}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -177,17 +202,17 @@ function HowItWorks() {
     {
       n: '01',
       title: 'Conecte a fonte',
-      desc: 'SQL Server, PostgreSQL ou MySQL. O source-inspector agente mapeia o schema completo automaticamente em segundos.',
+      desc: 'SQL Server, PostgreSQL ou MySQL. O inspetor de fontes mapeia automaticamente todo o schema em segundos — sem configuração manual.',
     },
     {
       n: '02',
       title: 'Configure o manifesto',
-      desc: 'YAML simples com fonte, destino, estratégia e regras de transformação. O AI Schema Mapper sugere mapeamentos.',
+      desc: 'YAML simples com fonte, destino, estratégia e regras de transformação. O AI Schema Mapper sugere mapeamentos de tipos automaticamente.',
     },
     {
       n: '03',
       title: 'Execute e monitore',
-      desc: 'O swarm de agentes Ruflo orquestra a migração em paralelo. Checkpoints automáticos garantem retomada em falhas.',
+      desc: 'MigrateIQ orquestra a migração em paralelo com múltiplos agentes especializados. Checkpoints automáticos garantem retomada em caso de falha.',
     },
   ];
 
@@ -195,21 +220,30 @@ function HowItWorks() {
     <section className="py-24 bg-ava-grey-10">
       <div className="max-w-7xl mx-auto px-8">
         <div className="text-center mb-16">
-          <div className="ava-accent-bar mx-auto mb-5" />
+          <div className="ava-accent-bar--gradient mx-auto mb-5" />
           <h2 className="text-4xl font-light text-ava-grey-80 mb-4">
             Migrate em <span className="font-semibold">3 passos</span>
           </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {steps.map(({ n, title, desc }) => (
-            <div key={n} className="relative">
-              <div className="text-7xl font-bold text-ava-orange/10 absolute -top-4 -left-2 select-none">{n}</div>
-              <div className="ava-card p-6 relative">
-                <span className="inline-block text-xs font-bold text-ava-orange mb-3 tracking-widest">{n}</span>
-                <h3 className="font-semibold text-ava-grey-80 text-lg mb-2">{title}</h3>
-                <p className="text-sm text-ava-grey-60 leading-relaxed">{desc}</p>
+        <div className="grid md:grid-cols-3 gap-0 items-start">
+          {steps.map(({ n, title, desc }, i) => (
+            <div key={n} className="relative flex items-start">
+              {/* Step card */}
+              <div className="flex-1 relative">
+                <div className="text-7xl font-bold text-ava-orange/10 absolute -top-4 -left-2 select-none">{n}</div>
+                <div className="ava-card p-6 relative mx-4">
+                  <span className="inline-block text-xs font-bold text-ava-orange mb-3 tracking-widest">{n}</span>
+                  <h3 className="font-semibold text-ava-grey-80 text-lg mb-2">{title}</h3>
+                  <p className="text-sm text-ava-grey-60 leading-relaxed">{desc}</p>
+                </div>
               </div>
+              {/* Connector arrow between steps */}
+              {i < steps.length - 1 && (
+                <div className="hidden md:flex items-center justify-center w-0 mt-12 relative z-10">
+                  <ChevronRight size={20} className="text-ava-orange/40 -mx-2.5" />
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -307,7 +341,7 @@ function CTA() {
         style={{ background: 'radial-gradient(ellipse at 80% 50%, #FFD700 0%, transparent 60%)' }} />
       <div className="relative max-w-4xl mx-auto px-8 text-center">
         <h2 className="text-5xl font-bold text-white mb-6 leading-tight">
-          Do what matters.
+          Migre com confiança.<br />Escale com dados.
         </h2>
         <p className="text-xl text-white/80 mb-10 font-light max-w-2xl mx-auto">
           Pare de gastar semanas com scripts ETL manuais. Migre seu primeiro banco em minutos.
@@ -368,7 +402,7 @@ function Footer() {
               <Building2 size={12} /> Parceiro Microsoft
             </span>
             <span className="flex items-center gap-1.5">
-              <Server size={12} /> Powered by Ruflo
+              <ShieldCheck size={12} /> SOC 2 · LGPD
             </span>
           </div>
         </div>

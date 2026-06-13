@@ -165,8 +165,8 @@ export default function ConnectionsPage() {
             <div>
               <p className="text-sm font-semibold text-ava-grey-80 mb-1">AI Schema Mapper disponível</p>
               <p className="text-sm text-ava-grey-60">
-                Ao conectar uma nova fonte, o agente <code className="text-xs bg-ava-grey-10 px-1.5 py-0.5 rounded">source-inspector</code> mapeia
-                automaticamente todas as tabelas e sugere mapeamentos de tipos para Delta Lake ou Fabric.
+                Ao conectar uma nova fonte, o MigrateIQ inspeciona automaticamente todas as tabelas
+                e sugere mapeamentos de tipos para Delta Lake ou Fabric com base em heurísticas de IA.
                 Nenhuma configuração manual necessária.
               </p>
             </div>
