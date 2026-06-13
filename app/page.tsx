@@ -339,7 +339,7 @@ function CTA() {
         <p className="text-xl text-white/80 mb-10 font-light max-w-2xl mx-auto">
           Pare de gastar semanas com scripts ETL manuais. Migre seu primeiro banco em minutos.
         </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-row gap-4 justify-center">
           <Link href="/app/dashboard">
             <Button size="lg" className="bg-white text-ava-orange hover:bg-ava-grey-10">
               Começar grátis <ChevronRight size={18} />
