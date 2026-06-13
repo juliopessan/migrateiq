@@ -256,24 +256,18 @@ function HowItWorks() {
 const plans = [
   {
     name: 'Starter',
-    price: 'Grátis',
-    period: '',
     highlight: false,
     desc: 'Para explorar e provar o conceito.',
     features: ['1M linhas / mês', '1 fonte + 1 destino', 'Full load', 'Suporte comunidade'],
   },
   {
     name: 'Pro',
-    price: 'R$ 990',
-    period: '/mês',
     highlight: true,
     desc: 'Para times de dados em produção.',
     features: ['50M linhas / mês', '5 conexões', 'Incremental + Watermark', 'AI Schema Mapper', 'Validação automática', 'Suporte prioritário'],
   },
   {
     name: 'Enterprise',
-    price: 'Sob consulta',
-    period: '',
     highlight: false,
     desc: 'Para migrações de grande escala.',
     features: ['Linhas ilimitadas', 'Conexões ilimitadas', 'RBAC + Audit logs', 'SLA 99.9%', 'Suporte dedicado', 'Deploy on-prem'],
@@ -293,7 +287,7 @@ function Pricing() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 items-start">
-          {plans.map(({ name, price, period, highlight, desc, features }) => (
+          {plans.map(({ name, highlight, desc, features }) => (
             <div
               key={name}
               className={highlight
@@ -306,16 +300,15 @@ function Pricing() {
                 </div>
               )}
               <h3 className={`font-semibold text-xl mb-1 ${highlight ? 'text-white' : 'text-ava-grey-80'}`}>{name}</h3>
-              <p className={`text-sm mb-4 ${highlight ? 'text-ava-grey-30' : 'text-ava-grey-60'}`}>{desc}</p>
+              <p className={`text-sm mb-6 ${highlight ? 'text-ava-grey-30' : 'text-ava-grey-60'}`}>{desc}</p>
               <div className="flex items-baseline gap-1 mb-6">
-                <span className={`text-4xl font-bold ${highlight ? 'text-white' : 'text-ava-grey-80'}`}>{price}</span>
-                <span className={`text-sm ${highlight ? 'text-ava-grey-40' : 'text-ava-grey-50'}`}>{period}</span>
+                <span className={`text-xl font-semibold ${highlight ? 'text-ava-grey-30' : 'text-ava-grey-50'}`}>Sob consulta</span>
               </div>
               <Button
                 variant={highlight ? 'gradient' : 'secondary'}
                 className="w-full mb-6"
               >
-                {name === 'Enterprise' ? 'Falar com vendas' : 'Começar agora'}
+                Falar com vendas
               </Button>
               <ul className="space-y-3">
                 {features.map((f) => (
