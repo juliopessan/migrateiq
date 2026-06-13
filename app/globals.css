@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ava-orange: #FF5800;
+  --ava-dark-orange: #DC4600;
+  --ava-black: #000000;
+  --ava-white: #FFFFFF;
+  --ava-grey-80: #333333;
+  --ava-grey-70: #4c4c4c;
+  --ava-grey-60: #666666;
+  --ava-grey-50: #7f7f7f;
+  --ava-grey-40: #999999;
+  --ava-grey-30: #b3b3b3;
+  --ava-grey-20: #cccccc;
+  --ava-grey-10: #e5e5e5;
+  --ava-solar:   #FFD700;
+  --ava-luminous:#FFB414;
+  --ava-glow:    #FF5800;
+  --ava-flame:   #B43C14;
+  --ava-thermal: #C80000;
+  --ava-aurora:  #890078;
+  --ava-success: #00A650;
+  --ava-info:    #0078D4;
+  --ava-gradient-master: linear-gradient(135deg, #FF5800 0%, #890078 100%);
+  --ava-gradient-warm:   linear-gradient(135deg, #FFD700 0%, #FF5800 100%);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', 'Segoe UI Variable', system-ui, -apple-system,
+               BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif;
+  color: var(--ava-grey-80);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Avanade card signature: 4px orange top border */
+.ava-card {
+  background: #ffffff;
+  border-top: 4px solid var(--ava-orange);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.10);
+  border-radius: 2px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.ava-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+
+/* Gradient text */
+.ava-gradient-text {
+  background: linear-gradient(90deg, #FF5800 0%, #890078 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Accent bar */
+.ava-accent-bar {
+  width: 64px;
+  height: 4px;
+  background: var(--ava-orange);
+}
+.ava-accent-bar--gradient {
+  width: 120px;
+  height: 6px;
+  background: linear-gradient(90deg, #FF5800 0%, #890078 100%);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--ava-grey-10); }
+::-webkit-scrollbar-thumb { background: var(--ava-grey-30); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ava-orange); }
+
+/* Animated gradient border for premium cards */
+.ava-card-gradient-border {
+  position: relative;
+  background: white;
+  border-radius: 4px;
+}
+.ava-card-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  padding: 2px;
+  background: linear-gradient(135deg, #FF5800, #890078);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
