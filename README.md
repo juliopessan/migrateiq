@@ -75,44 +75,76 @@ PII masking em nível de coluna via YAML. Logs de auditoria completos compatíve
 
 ---
 
+## Pré-requisitos
+
+- **Node.js 18+** — [nodejs.org/download](https://nodejs.org/download)
+- **npm 9+** (incluído com o Node.js)
+
+Verificar versões:
+
+```bash
+node --version   # deve ser >= 18
+npm --version    # deve ser >= 9
+```
+
 ## Instalação
 
 ```bash
-# Dependências
+# 1. Clonar o repositório
+git clone https://github.com/juliopessan/migrateiq.git
+cd migrateiq
+
+# 2. Instalar dependências
 npm install
 
-# Desenvolvimento (porta 3002)
+# 3. Iniciar em desenvolvimento (abre em http://localhost:3002)
 npm run dev
+```
 
-# Build de produção
-npm run build
+Abra [http://localhost:3002](http://localhost:3002) no navegador.
 
-# Type check
-npm run typecheck
+## Outros comandos
 
-# Lint
-npm run lint
+```bash
+npm run build       # Build de produção
+npm run start       # Iniciar build de produção (requer npm run build antes)
+npm run typecheck   # Verificar tipos TypeScript
+npm run lint        # Verificar estilo de código
 ```
 
 ---
 
 ## Design System
 
-O projeto usa um design system próprio via Tailwind CSS:
+O projeto usa um design system próprio via Tailwind CSS com tokens de cor, tipografia e espaçamento.
 
-```css
-/* Cores principais */
---ava-orange: #FF5800      /* Cor primária da marca */
---ava-grey-80: #333333     /* Texto principal */
---ava-master: linear-gradient(135deg, #FF5800 0%, #890078 100%)
+**Paleta principal:**
 
-/* Componentes */
-.ava-card            /* Card com borda laranja de 4px no topo */
-.ava-gradient-text   /* Texto com master gradient */
-.ava-accent-bar--gradient  /* Barra de acento gradient */
+| Token | Hex | Uso |
+|-------|-----|-----|
+| `orange` | `#FF5800` | Cor primária — CTAs, destaques |
+| `grey-80` | `#333333` | Texto principal |
+| `grey-60` | `#666666` | Texto secundário |
+| `grey-10` | `#e5e5e5` | Backgrounds de seção |
+| `success` | `#00A650` | Status positivo |
+| `info` | `#0078D4` | Status informativo |
+
+**Gradients:**
+
+```
+master:  #FF5800 → #890078  (laranja → aurora)
+warm:    #FFD700 → #FF5800  (solar → laranja)
 ```
 
-Tokens disponíveis: cores primárias, 8 tons de cinza, família de gradients (Solar → Luminous → Glow → Flame → Thermal → Aurora), tipografia Segoe UI, escala de espaçamento 4px, sombras e border radius.
+**Componentes CSS globais:**
+
+```css
+.card                    /* Card com borda laranja de 4px no topo + sombra */
+.gradient-text           /* Texto com gradient laranja → aurora */
+.accent-bar--gradient    /* Barra de acento gradient horizontal */
+```
+
+Tipografia: **Segoe UI** (Light 300 para títulos H1/H2, Semibold 600 para H3/H5).
 
 ---
 
