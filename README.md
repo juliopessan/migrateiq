@@ -5,6 +5,7 @@
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwindcss)
+![Smoke Tests](https://img.shields.io/badge/smoke%20tests-24%2F24-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
@@ -211,6 +212,21 @@ PII masking em nível de coluna via YAML. Logs de auditoria completos compatíve
 | Enterprise | Ilimitado | Ilimitado |
 
 Todos os planos sob consulta — [falar com vendas](mailto:contato@migrateiq.com.br).
+
+---
+
+## Verificação rápida
+
+```bash
+# Smoke tests do plugin (deve retornar 24/24)
+bash plugins/ruflo-data-migration/scripts/smoke.sh
+
+# TypeScript do frontend
+npx tsc --noEmit
+
+# TypeScript do engine
+cd engine && npx tsc --noEmit
+```
 
 ---
 

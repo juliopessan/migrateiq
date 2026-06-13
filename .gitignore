@@ -1,7 +1,11 @@
 node_modules/
+engine/node_modules/
 .next/
 dist/
+engine/dist/
 .env
 .env.local
+engine/.env
 .DS_Store
 *.log
+*.tsbuildinfo
