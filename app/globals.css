@@ -37,7 +37,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Avanade card signature: 4px orange top border */
+/* Card signature: 4px orange top border */
 .ava-card {
   background: #ffffff;
   border-top: 4px solid var(--ava-orange);

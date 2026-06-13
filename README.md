@@ -25,7 +25,7 @@ MigrateIQ elimina semanas de scripts ETL manuais. A plataforma inspeciona o sche
 | Camada | Tecnologia |
 |--------|-----------|
 | Frontend | Next.js 15 (App Router) + TypeScript |
-| Estilo | Tailwind CSS v3 com design system Avanade |
+| Estilo | Tailwind CSS v3 com design system próprio |
 | Componentes | Lucide React + Recharts |
 | Engine de migração | [`data-migration-hub/`](../data-migration-hub) — TypeScript + Node.js 18+ |
 | Orquestração | Multi-agente de IA com checkpoints e retry |
@@ -51,7 +51,7 @@ migrateiq/
 │       └── Badge.tsx             # 7 variantes de status
 ├── lib/
 │   └── mock-data.ts              # Dados de demonstração
-└── tailwind.config.ts            # Design tokens Avanade completos
+└── tailwind.config.ts            # Design tokens do MigrateIQ
 ```
 
 ---
@@ -98,7 +98,7 @@ npm run lint
 
 ## Design System
 
-O projeto usa o design system Avanade completo via Tailwind CSS:
+O projeto usa um design system próprio via Tailwind CSS:
 
 ```css
 /* Cores principais */
