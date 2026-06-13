@@ -1,18 +1,18 @@
 # MigrateIQ
 
-**AI-native data migration platform** — SQL Server, PostgreSQL e MySQL para Databricks e Microsoft Fabric, orquestrado por múltiplos agentes de IA.
+**Plataforma AI-native de migração de dados** — ciclo completo do pre-assessment ao relatório executivo, orquestrado por 13 agentes especializados.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue?logo=typescript)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwindcss)
-![Smoke Tests](https://img.shields.io/badge/smoke%20tests-24%2F24-brightgreen)
+![Smoke Tests](https://img.shields.io/badge/smoke%20tests-61%2F61-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ---
 
 ## Visão Geral
 
-MigrateIQ elimina semanas de scripts ETL manuais. A plataforma inspeciona o schema de origem, sugere mapeamentos de tipos automaticamente via IA, executa a migração em paralelo com checkpoints automáticos e valida cada batch antes de confirmar no destino.
+MigrateIQ elimina semanas de scripts ETL manuais. A plataforma cobre o ciclo completo de migração: desde a avaliação inicial de complexidade, perfilamento de qualidade de dados, design da arquitetura Medallion, geração de código ETL, até o relatório executivo pós-migração com evidências de conformidade LGPD e SOX.
 
 **Fontes suportadas:** SQL Server · PostgreSQL · MySQL  
 **Destinos suportados:** Databricks Delta Lake · Microsoft Fabric Lakehouse  
@@ -21,39 +21,92 @@ MigrateIQ elimina semanas de scripts ETL manuais. A plataforma inspeciona o sche
 
 ---
 
+## Ciclo Completo de Migração (10 fases)
+
+```
+1. Pre-Assessment    → Inventário de fontes, score de complexidade, go/no-go
+2. Data Profiling    → Qualidade de dados, detecção de PII, anomalias por coluna
+3. As-Is             → Dicionário de dados, diagrama ER, inventário ETL, lineage
+4. To-Be             → Design Medallion, DDL alvo, regras de transformação, mascaramento
+5. Schema Mapping    → Mapeamento coluna-a-coluna aprovado, resolução de conflitos de tipo
+6. Code Generation   → Scripts ETL, DDL, funções PII, testes — tudo para revisão humana
+7. Testing           → Testes unitários, reconciliação, UAT, benchmarks de performance
+8. Cutover Planning  → Runbook de produção, triggers de rollback, plano de comunicação
+9. Execution         → Full load / incremental com checkpoint e retry automático
+10. Post-Migration   → Relatório executivo, lineage final, pacote de conformidade LGPD/SOX
+```
+
+---
+
 ## Estrutura do Repositório
 
 ```
 migrateiq/
-├── app/                          # Frontend Next.js (App Router)
-│   ├── page.tsx                  # Landing page
+├── app/                              # Frontend Next.js (App Router)
+│   ├── page.tsx                      # Landing page
 │   └── app/
-│       ├── dashboard/page.tsx    # Dashboard
-│       ├── migrations/page.tsx   # Gerenciamento de migrações
-│       └── connections/page.tsx  # Conexões
-├── components/                   # Componentes React
+│       ├── dashboard/page.tsx        # Dashboard
+│       ├── migrations/page.tsx       # Gerenciamento de migrações
+│       └── connections/page.tsx      # Conexões
+├── components/                       # Componentes React
 │   ├── layout/ (Sidebar, Header)
 │   └── ui/ (Button, Badge)
-├── engine/                       # Engine de migração (Node.js)
+├── engine/                           # Engine de migração (Node.js)
 │   ├── src/
 │   │   ├── connectors/
-│   │   │   ├── sources/          # PostgreSQL, SQL Server, MySQL
-│   │   │   └── targets/          # Databricks, Microsoft Fabric
-│   │   ├── pipeline/             # Orchestrator, Extractor, Transformer
-│   │   ├── schema/               # Types, Mapper, Inspector
-│   │   └── utils/                # Checkpoint, Logger, Retry
-│   ├── package.json              # Dependências do engine
+│   │   │   ├── sources/              # PostgreSQL, SQL Server, MySQL
+│   │   │   └── targets/              # Databricks, Microsoft Fabric
+│   │   ├── pipeline/                 # Orchestrator, Extractor, Transformer
+│   │   ├── schema/                   # Types, Mapper, Inspector
+│   │   ├── assessment/               # Profiler, PII Detector, Dependency Scanner
+│   │   ├── generation/               # ETL Generator, DDL Generator
+│   │   ├── testing/                  # Reconciler
+│   │   ├── reporting/                # Report Generator
+│   │   ├── compliance/               # Audit Logger
+│   │   └── utils/                    # Checkpoint, Logger, Retry
+│   ├── package.json
 │   └── tsconfig.json
 ├── plugins/
-│   └── ruflo-data-migration/     # Plugin de orquestração multi-agente
-│       ├── agents/               # migration-orchestrator, source-inspector, migration-validator
-│       ├── skills/               # migration-plan, run, status, rollback, validate
+│   └── ruflo-data-migration/         # Plugin de orquestração multi-agente
+│       ├── agents/                   # 13 agentes especializados
+│       │   ├── pre-assessment-analyst.md
+│       │   ├── data-profiler.md
+│       │   ├── as-is-documenter.md
+│       │   ├── to-be-designer.md
+│       │   ├── schema-mapper.md
+│       │   ├── code-generator.md
+│       │   ├── test-engineer.md
+│       │   ├── cutover-planner.md
+│       │   ├── compliance-auditor.md
+│       │   ├── post-migration-reporter.md
+│       │   ├── migration-orchestrator.md
+│       │   ├── source-inspector.md
+│       │   └── migration-validator.md
+│       ├── skills/                   # 17 skills (5 execução + 12 ciclo completo)
+│       │   ├── pre-assessment/
+│       │   ├── data-profiling/
+│       │   ├── pii-scan/
+│       │   ├── dependency-map/
+│       │   ├── as-is-report/
+│       │   ├── to-be-design/
+│       │   ├── schema-mapping/
+│       │   ├── code-generate/
+│       │   ├── test-generate/
+│       │   ├── cutover-plan/
+│       │   ├── reconciliation/
+│       │   ├── compliance-report/
+│       │   ├── migration-plan/
+│       │   ├── migration-run/
+│       │   ├── migration-status/
+│       │   ├── migration-rollback/
+│       │   └── migration-validate/
 │       ├── commands/
-│       └── scripts/smoke.sh      # 24 smoke tests
+│       └── scripts/smoke.sh          # 61 smoke tests
 ├── migrations/
-│   └── manifests/                # Templates YAML (full-load, incremental)
-├── lib/                          # Mock data (frontend)
-└── public/                       # Assets estáticos
+│   ├── manifests/                    # Templates YAML (assessment, mapping, full-load, incremental)
+│   └── docs/templates/               # Templates de documentação (as-is, to-be, cutover, relatórios)
+├── lib/                              # Mock data (frontend)
+└── public/                           # Assets estáticos
 ```
 
 ---
@@ -67,7 +120,7 @@ migrateiq/
 | Engine | Node.js 20+ + TypeScript strict |
 | Fontes SQL | `pg` · `mssql` · `mysql2` |
 | Destinos cloud | Databricks REST API · Microsoft Fabric API |
-| Orquestração | Multi-agente com checkpoints e retry automático |
+| Orquestração | 13 agentes com checkpoints e retry automático |
 | Plugin | `ruflo-data-migration` |
 
 ---
@@ -141,7 +194,7 @@ npm run dev         # Watch mode
 ### Smoke tests (plugin)
 ```bash
 bash plugins/ruflo-data-migration/scripts/smoke.sh
-# Expected: 24 passed, 0 failed
+# Expected: 61 passed, 0 failed
 ```
 
 ---
@@ -189,17 +242,43 @@ FABRIC_WORKSPACE_ID=your-workspace-id
 ### AI Schema Mapper
 Detecta e mapeia automaticamente colunas equivalentes entre sistemas. Aprende com cada migração via feedback loop.
 
+### Detecção de PII e Conformidade LGPD
+Identifica CPF, CNPJ, email, telefone, nome e dados sensíveis. Gera regras de mascaramento por coluna e produz o pacote de evidências LGPD/SOX.
+
 ### Incremental com Watermark
-Detecta automaticamente colunas de timestamp (`updated_at`, `modified_at`, etc.) para cargas incrementais com checkpoint de retomada automática.
+Detecta automaticamente colunas de timestamp para cargas incrementais com checkpoint de retomada automática.
 
 ### Validação em Tempo Real
-Row count parity, unicidade de PKs e null rates — validados automaticamente antes de cada batch ser confirmado no destino.
+Row count parity, unicidade de PKs e null rates — validados antes de cada batch ser confirmado no destino.
 
 ### Medallion Architecture
-Bronze → Silver → Gold gerado automaticamente com colunas de auditoria (`_migration_id`, `_migrated_at`, `_layer`) e lineage completo.
+Bronze → Silver → Gold gerado automaticamente com audit columns e lineage completo.
 
-### Mascaramento & Compliance
-PII masking em nível de coluna via YAML. Logs de auditoria completos compatíveis com LGPD e SOX.
+### Geração de Código Revisável
+Todos os scripts ETL, DDL e testes são gerados para revisão humana antes de qualquer execução — nada roda sem aprovação.
+
+### Cutover Planning
+Runbook de produção completo com timeline, triggers de rollback, plano de comunicação e checklist pré-cutover.
+
+---
+
+## Agentes
+
+| Agente | Fase | Função |
+|--------|------|--------|
+| `pre-assessment-analyst` | 1 | Score de complexidade, go/no-go |
+| `data-profiler` | 2 | Qualidade de dados, detecção de PII |
+| `as-is-documenter` | 3 | Documentação do estado atual |
+| `to-be-designer` | 4 | Design da arquitetura alvo |
+| `schema-mapper` | 5 | Aprovação do mapeamento coluna-a-coluna |
+| `code-generator` | 6 | Geração de scripts ETL e DDL |
+| `test-engineer` | 7 | Geração e execução de testes |
+| `cutover-planner` | 8 | Runbook de cutover |
+| `migration-orchestrator` | 9 | Coordenação da execução |
+| `source-inspector` | 9 | Discovery de schema |
+| `migration-validator` | 9 | Validação pós-execução |
+| `compliance-auditor` | 10 | Conformidade LGPD/SOX |
+| `post-migration-reporter` | 10 | Relatório executivo e handover |
 
 ---
 
@@ -218,7 +297,7 @@ Todos os planos sob consulta — [falar com vendas](mailto:contato@migrateiq.com
 ## Verificação rápida
 
 ```bash
-# Smoke tests do plugin (deve retornar 24/24)
+# Smoke tests do plugin (deve retornar 61/61)
 bash plugins/ruflo-data-migration/scripts/smoke.sh
 
 # TypeScript do frontend
@@ -237,6 +316,8 @@ cd engine && npx tsc --noEmit
 - [ ] API pública REST
 - [ ] Deploy on-prem (Docker / Kubernetes)
 - [ ] Interface de configuração de manifests (no-code)
+- [ ] Dashboard de qualidade de dados (pós-profiling)
+- [ ] Integração com Great Expectations para DQ automático
 
 ---
 

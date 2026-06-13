@@ -1,0 +1,118 @@
+mappingId: mapping-001
+assessmentId: pre-assessment-001
+profilingId: profiling-001
+status: draft                    # draft | approved
+approvedBy: ~                    # fill when approved
+approvedAt: ~
+
+# ─── Table mappings ────────────────────────────────────────────────────────────
+tables:
+  - source: "dbo.customers"
+    target: "bronze.customers"
+    strategy: full               # full | incremental
+    watermarkColumn: updated_at  # required for strategy: incremental
+    migrationOrder: 1            # from dependency-map batch order
+
+    columns:
+      # Direct map (same name, compatible type)
+      - source: customer_id
+        target: customer_id
+        sourceType: INT
+        targetType: INT
+        operation: map
+        nullable: false
+
+      # Rename example
+      - source: full_name
+        target: customer_name
+        sourceType: VARCHAR(255)
+        targetType: STRING
+        operation: rename
+        nullable: true
+
+      # PII masking — Bronze keeps raw, Silver applies mask
+      - source: email
+        target: email
+        sourceType: VARCHAR(255)
+        targetType: STRING
+        operation: map           # Bronze: raw copy
+        nullable: true
+        pii: EMAIL
+        silverMask:
+          operation: mask
+          pattern: "{first_char}***@{domain}"
+
+      # PII tokenization
+      - source: cpf
+        target: cpf_token
+        sourceType: CHAR(11)
+        targetType: STRING
+        operation: tokenize
+        nullable: true
+        pii: CPF
+
+      # Empty string → NULL fix
+      - source: phone
+        target: phone
+        sourceType: VARCHAR(20)
+        targetType: STRING
+        operation: map
+        nullable: true
+        pii: PHONE
+        emptyStringToNull: true
+        silverMask:
+          operation: mask
+          pattern: "{first_4}****{last_2}"
+
+      # Drop — explicitly excluded with reason
+      - source: internal_sync_flag
+        target: ~
+        operation: drop
+        reason: "Internal replication flag — no value in target"
+
+  - source: "dbo.orders"
+    target: "bronze.orders"
+    strategy: incremental
+    watermarkColumn: created_at
+    migrationOrder: 2            # after customers (FK dependency)
+
+    columns:
+      - source: order_id
+        target: order_id
+        sourceType: BIGINT
+        targetType: BIGINT
+        operation: map
+        nullable: false
+
+      - source: customer_id
+        target: customer_id
+        sourceType: INT
+        targetType: INT
+        operation: map
+        nullable: false
+
+      - source: total_amount
+        target: total_amount
+        sourceType: "DECIMAL(18,6)"
+        targetType: "DECIMAL(18,2)"
+        operation: map
+        nullable: false
+        typeConflict:
+          accepted: true
+          reason: "Business confirmed 2 decimal places sufficient"
+          financialColumn: true     # triggers exact checksum in reconciliation
+
+      - source: created_at
+        target: created_at
+        sourceType: DATETIME
+        targetType: TIMESTAMP
+        operation: map
+        nullable: false
+
+# ─── Global options ────────────────────────────────────────────────────────────
+options:
+  platform: databricks          # databricks | fabric
+  addAuditColumns: true         # adds _migration_id, _migrated_at, _source_system, _layer
+  generateSilverLayer: true     # applies PII masks in silver schema
+  generateGoldLayer: false      # set true when gold aggregation tables are designed
+  enableCdf: true               # Delta Change Data Feed (required for incremental Silver→Gold)

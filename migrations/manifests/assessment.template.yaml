@@ -1,0 +1,48 @@
+id: assessment-001
+name: "Pre-Assessment — {source system description}"
+
+# ─── Sources to assess ─────────────────────────────────────────────────────────
+sources:
+  - type: sqlserver           # postgresql | sqlserver | mysql
+    host: ${MSSQL_HOST}
+    port: 1433
+    database: ${MSSQL_DATABASE}
+    user: ${MSSQL_USER}
+    password: ${MSSQL_PASSWORD}
+    schemas:
+      - dbo
+    # tables:                 # omit to assess all tables in schema
+    #   - customers
+    #   - orders
+
+  # Add more source systems as needed:
+  # - type: postgresql
+  #   host: ${PG_HOST}
+  #   ...
+
+# ─── Business context ──────────────────────────────────────────────────────────
+business:
+  projectName: "Migration Project"
+  dataOwner: "Name, email"
+  complianceOfficer: "Name, email"
+  technicalLead: "Name, email"
+  targetGoLiveDate: "YYYY-MM-DD"
+  description: "Brief description of what is being migrated and why"
+
+  # Applicable regulatory frameworks (list all that apply)
+  compliance:
+    - LGPD            # Brazilian General Data Protection Law — always check
+    # - SOX           # Sarbanes-Oxley — if financial data is involved
+    # - GDPR          # EU General Data Protection Regulation
+
+# ─── Constraints ───────────────────────────────────────────────────────────────
+constraints:
+  maxMigrationWindowHours: 8      # Available downtime window
+  hasReadReplica: false            # If false, adds risk score
+  allowProductionQueries: false    # If true, source queries hit production
+  targetEnvironment: databricks    # databricks | fabric
+
+# ─── Output ────────────────────────────────────────────────────────────────────
+output:
+  reportPath: "docs/pre-assessment-{id}.json"
+  printSummary: true
